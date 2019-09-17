@@ -49,7 +49,8 @@ def list_all_items():
 #marking items completed
 def mark_completed(index):
     item = checklist[index]
-    print("{} {}".format("v", item))
+    checklist[index] = "{} {}".format(item, "- complete")
+    # print("{} {}".format("v", item))
 
 #prompting the user to provide input
 def user_input(prompt):
@@ -60,8 +61,8 @@ def user_input(prompt):
 def select(function_code):
     # print(function_code)
     #use the create function
-    if function_code.lower() == "c":
-        input_item = user_input("Create item:")
+    if function_code.lower() == "a":
+        input_item = user_input("Add item to list:")
         create(input_item)
 
     #using the read function
@@ -75,6 +76,15 @@ def select(function_code):
         item_index = int(user_input("Index number to update:"))
         item_update = user_input("Updated item:")
         update(item_index, item_update)
+
+    #mark item complete using mark_completed function
+    elif function_code.lower() == "d":
+        destroy(int(user_input("Index number to delete:")))
+
+    #mark item complete using mark_completed function
+    elif function_code.lower() == "c":
+        item_index = int(user_input("Index number to mark complete:"))
+        mark_completed(item_index)
 
     #using the print all items function
     elif function_code.lower() == "p":
@@ -133,10 +143,16 @@ def select(function_code):
 #while loop
 running = True
 while running:
-    selection = user_input("""Press C - to add to list,
-    R - to read from list,
-    P - to print list,
-    U - to update an item,
-    Q - to quit.
+    print("Current list:")
+    list_all_items()
+    selection = user_input("""
+    Select action:
+    A - add item to list
+    R - read item from list
+    P - print complete list
+    U - update item from list
+    D - delete item from list
+    C - mark item complete
+    Q - quit
     > """)
     running = select(selection)
